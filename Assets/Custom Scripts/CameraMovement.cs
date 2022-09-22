@@ -37,7 +37,7 @@ public class CameraMovement : MonoBehaviour
             Debug.Log($"Origin: {dragOrigin} | New Spot: {cam.ScreenToWorldPoint(Input.mousePosition)} | Difference: {difference}");
             // move the camera that dist
             cam.transform.position += difference;
-
+            
         }
         
     }

@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 4102850753
+    locked: 0
+  - name: Plants
+    uniqueID: 3663242321
+    locked: 0
+  - name: Bees
+    uniqueID: 3877249065
+    locked: 0
+  - name: UI
+    uniqueID: 2434639423
+    locked: 0
