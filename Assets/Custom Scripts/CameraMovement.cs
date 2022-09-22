@@ -34,7 +34,7 @@ public class CameraMovement : MonoBehaviour
         {
             Vector3 difference = dragOrigin - cam.ScreenToWorldPoint(Input.mousePosition);
 
-            Debug.Log($"Origin: {dragOrigin} | New Spot: {cam.ScreenToWorldPoint(Input.mousePosition)} | Difference: {difference}");
+            //Debug.Log($"Origin: {dragOrigin} | New Spot: {cam.ScreenToWorldPoint(Input.mousePosition)} | Difference: {difference}");
             // move the camera that dist
             cam.transform.position += difference;
             
@@ -45,14 +45,14 @@ public class CameraMovement : MonoBehaviour
     public void ZoomIn()
     {
         float newSize = cam.orthographicSize - zoomStep;
-        Debug.Log("Zoom In Clicked!");
+        //Debug.Log("Zoom In Clicked!");
         cam.orthographicSize = Mathf.Clamp(newSize, minSize, maxSize);
     }
 
     public void ZoomOut()
     {
         float newSize = cam.orthographicSize + zoomStep;
-        Debug.Log("Zoom Out Clicked");
+        //Debug.Log("Zoom Out Clicked");
         cam.orthographicSize = Mathf.Clamp(newSize, minSize, maxSize);
     }
 }

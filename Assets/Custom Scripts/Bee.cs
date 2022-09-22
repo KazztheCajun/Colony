@@ -23,7 +23,7 @@ public class Bee : MonoBehaviour
     {
         if(target != null)
         {
-            transform.RotateAround(target.transform.position, Vector3.up, speed * Time.deltaTime);
+            transform.RotateAround(target.transform.position, Vector3.back, speed * Time.deltaTime);
         }
     }
 }
