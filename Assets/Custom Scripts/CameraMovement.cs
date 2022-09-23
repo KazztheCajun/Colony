@@ -20,6 +20,9 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
         PanCamera();
+
+        float newSize = cam.orthographicSize - (Input.mouseScrollDelta.y * zoomStep);
+        cam.orthographicSize = Mathf.Clamp(newSize, minSize, maxSize);
     }
 
     private void PanCamera()

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(SpawnBees());
 
-        spawnGrass(new Vector3(5, 6, 1), 3);
+        spawnGrass(new Vector3(20, 20, 1), 5);
     }
 
     // Update is called once per frame
@@ -52,7 +52,9 @@ public class GameManager : MonoBehaviour
         for(int i = 0; i < 5; i++)
         {
             GameObject temp = Instantiate(p_bee, hive.transform.position + new Vector3(2, 0, 0), Quaternion.identity);
-            temp.GetComponent<Bee>().target = hive.transform;
+            Bee b = temp.GetComponent<Bee>();
+            b.target = hive.transform;
+            b.id = $"Bee #{i}";
             bees.Add(temp);
             yield return new WaitForSeconds(.75f);
         }

@@ -335,7 +335,7 @@ Transform:
   m_GameObject: {fileID: 339708797}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 75, y: 50, z: 1}
+  m_LocalScale: {x: 200, y: 150, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -395,7 +395,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -439,9 +439,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 519420031}
-  zoomStep: 1
+  zoomStep: 2
   minSize: 1
-  maxSize: 20
+  maxSize: 150
 --- !u!1 &598488293
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,7 +673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   p_hive: {fileID: 4758363329165531695, guid: ff9f7b0121112cb4eaf7f54c9a8dd557, type: 3}
-  p_bee: {fileID: 9191290717373487915, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
+  p_bee: {fileID: 5439700815181571196, guid: ae162c30f8f1bae409449102fef56501, type: 3}
   p_grass: {fileID: 3007540608556892211, guid: 257c331da28bdc440b3df5c82693c844, type: 3}
   p_flowers:
   - {fileID: 5097808942859162090, guid: 8bcba6bf480bbfd47943d402faaa41d1, type: 3}
@@ -1066,80 +1066,3 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1001 &2109793686
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3983881644497725921, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3983881644497725921, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -8.76
-      objectReference: {fileID: 0}
-    - target: {fileID: 3983881644497725921, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.71
-      objectReference: {fileID: 0}
-    - target: {fileID: 3983881644497725921, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3983881644497725921, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3983881644497725921, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3983881644497725921, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3983881644497725921, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3983881644497725921, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3983881644497725921, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3983881644497725921, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6189133568707242615, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8139379650006269835, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_Transition
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8139379650006269835, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8139379650006269835, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8139379650006269835, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_Colors.m_HighlightedColor.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9191290717373487915, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
-      propertyPath: m_Name
-      value: Bee
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e45988cfa57b90c4281116d45b42160a, type: 3}
