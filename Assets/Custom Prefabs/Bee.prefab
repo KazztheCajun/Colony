@@ -305,14 +305,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28a7d8d81c014b44d8fc8b1ac535cfa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 100
+  flySpeed: 25
+  waitSpeed: 5
   capacity: 100
   maxEnergy: 100
+  waitRadius: 2
   energyBar: {fileID: 5439700815311471906}
   nectarBar: {fileID: 5439700814853244481}
   infoPanel: {fileID: 5439700815613283487}
-  target: {fileID: 0}
+  state: 0
+  target: {x: 0, y: 0, z: 0}
   id: 
+  energy: 0
+  nectar: 0
 --- !u!58 &5439700815181571192
 CircleCollider2D:
   m_ObjectHideFlags: 0

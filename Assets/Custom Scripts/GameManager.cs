@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public GameObject p_bee;
     public GameObject p_grass;
     public List<GameObject> p_flowers;
+    public bool play;
+    public bool mousePan;
 
     // In Game references
 
@@ -19,13 +21,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        bees = new List<GameObject>();
-        flowers = new List<GameObject>();
-        hive = Instantiate(p_hive);
-
-        StartCoroutine(SpawnBees());
-
-        spawnGrass(new Vector3(20, 20, 1), 5);
+        if(play)
+        {
+            bees = new List<GameObject>();
+            flowers = new List<GameObject>();
+            hive = Instantiate(p_hive);
+            StartCoroutine(SpawnBees());
+            spawnGrass(new Vector3(20, 20, 1), 5);
+        }
+        
     }
 
     // Update is called once per frame
@@ -53,7 +57,7 @@ public class GameManager : MonoBehaviour
         {
             GameObject temp = Instantiate(p_bee, hive.transform.position + new Vector3(2, 0, 0), Quaternion.identity);
             Bee b = temp.GetComponent<Bee>();
-            b.target = hive.transform;
+            b.target = hive.transform.position;
             b.id = $"Bee #{i}";
             bees.Add(temp);
             yield return new WaitForSeconds(.75f);

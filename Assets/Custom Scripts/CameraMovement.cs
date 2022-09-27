@@ -6,14 +6,15 @@ public class CameraMovement : MonoBehaviour
 {
 
     public Camera cam;
-    public float zoomStep, minSize, maxSize;
+    public float zoomStep, minSize, maxSize, speed, edge;
+    public GameManager manager;
 
     private Vector3 dragOrigin;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -27,22 +28,32 @@ public class CameraMovement : MonoBehaviour
 
     private void PanCamera()
     {
-        // save pos of first mouse click
-        if(Input.GetMouseButtonDown(0))
-        {
-            dragOrigin = cam.ScreenToWorldPoint(Input.mousePosition);
-        }
-        // calc dist between initial pos and new position while it is held down
-        if (Input.GetMouseButton(0))
-        {
-            Vector3 difference = dragOrigin - cam.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 move = Vector3.zero;
+        Transform t = cam.GetComponent<Transform>(); 
+        move.x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+        move.y = Input.GetAxis("Vertical") * speed * Time.deltaTime;
 
-            //Debug.Log($"Origin: {dragOrigin} | New Spot: {cam.ScreenToWorldPoint(Input.mousePosition)} | Difference: {difference}");
-            // move the camera that dist
-            cam.transform.position += difference;
-            
+        if(manager.mousePan)
+        {
+            if(Input.mousePosition.x > Screen.width - edge)
+            {
+                move.x += speed * Time.deltaTime;
+            }
+            if(Input.mousePosition.x < edge)
+            {
+                move.x -= speed * Time.deltaTime;
+            }
+            if(Input.mousePosition.y > Screen.height - edge)
+            {
+                move.y += speed * Time.deltaTime;
+            }
+            if(Input.mousePosition.y < edge)
+            {
+                move.y -= speed * Time.deltaTime;
+            }
         }
         
+        t.position += move;
     }
 
     public void ZoomIn()

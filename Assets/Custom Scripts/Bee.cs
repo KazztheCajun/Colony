@@ -6,30 +6,40 @@ using UnityEngine.UI;
 public class Bee : MonoBehaviour
 {
     // public variables
-    public int speed;
+    public int flySpeed;
+    public int waitSpeed;
     public int capacity;
     public int maxEnergy;
-    private bool isSelected;
-
-    // reference variables
+    public float waitRadius;
     public Slider energyBar;
     public Slider nectarBar;
     public GameObject infoPanel;
+    public BeeState state;
+    
+    // private/hidden variables
     private SpriteRenderer render;
-
-    // private variables
+    
+    private float rotationAngle;
     [HideInInspector]
-    public Transform target;
+    public Vector3 target;
     [HideInInspector]
     public string id;
-    private int energy;
-    private int nectar;
-
+    [HideInInspector]
+    public int energy;
+    [HideInInspector]
+    public int nectar;
+    
+    // enumerated values
+    public enum BeeState
+    {
+        Wait,
+        Harvest
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        isSelected = false;
+        state = BeeState.Wait;
         render = GetComponent<SpriteRenderer>();
         energy = maxEnergy;
         nectar = 0;
@@ -37,47 +47,62 @@ public class Bee : MonoBehaviour
         energyBar.value = maxEnergy;
         nectarBar.maxValue = capacity;
         nectarBar.value = nectar;
+        target = transform.position;
         infoPanel.SetActive(false);
+        rotationAngle = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(target != null)
+        switch (state)
         {
-            transform.RotateAround(target.transform.position, Vector3.back, speed * Time.deltaTime);
+            case BeeState.Wait:
+                fly();
+                break;
+            case BeeState.Harvest:
+                fly();
+                break;
         }
+
+        
 
         energyBar.value = energy;
         nectarBar.value = nectar;
     }
 
-    void OnMouseDown()
+    public void fly()
     {
-        clickBee();
-    }
-
-    public void clickBee()
-    {
-        if(isSelected)
+        if (Vector3.Distance(target, transform.position) > 2f) // if target is farther away than .1 units, move to it
         {
-            deselectBee();
+            flyToTarget();
         }
         else
         {
-            selectBee();
+            flyAroundTarget();
         }
-        isSelected = !isSelected;
     }
 
-    private void selectBee()
+    public void flyToTarget()
+    {
+        transform.position = Vector3.MoveTowards(transform.position, target, flySpeed * Time.deltaTime);
+    }
+
+    public void flyAroundTarget()
+    {
+        Vector3 offset = new Vector3(Mathf.Sin(rotationAngle) * waitRadius, Mathf.Cos(rotationAngle) * waitRadius, 0);
+        transform.position = Vector3.MoveTowards(transform.position, target + offset, Time.deltaTime * waitSpeed);
+        rotationAngle += Time.deltaTime * waitSpeed;
+    }
+
+    public void selectBee()
     {
         //Debug.Log($"{id} has been selected.");
         infoPanel.SetActive(true);
         render.color = Color.yellow;
     }
 
-    private void deselectBee()
+    public void deselectBee()
     {
         //Debug.Log($"{id} has been deselected.");
         infoPanel.SetActive(false);
