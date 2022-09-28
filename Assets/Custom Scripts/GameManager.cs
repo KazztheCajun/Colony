@@ -41,10 +41,10 @@ public class GameManager : MonoBehaviour
     private void spawnGrass(Vector3 center, int radius)
     {
         //int num = Random.Range(30, 50);
-        for (int i = 0; i < (radius * 25); i++)
+        for (int i = 0; i < (radius * 10); i++)
         {
             GameObject temp = Instantiate(p_grass, center + ((Vector3) Random.insideUnitCircle * radius), Quaternion.identity);
-            if(Random.value >= .5)
+            if(Random.value >= .8)
             {
                 Instantiate(p_flowers[0], temp.transform.position + ((Vector3) Random.insideUnitCircle * temp.transform.localScale.x), Quaternion.identity);
             }
@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
             GameObject temp = Instantiate(p_bee, hive.transform.position + new Vector3(2, 0, 0), Quaternion.identity);
             Bee b = temp.GetComponent<Bee>();
             b.target = hive.transform.position;
+            b.home = hive.transform;
             b.id = $"Bee #{i}";
             bees.Add(temp);
             yield return new WaitForSeconds(.75f);

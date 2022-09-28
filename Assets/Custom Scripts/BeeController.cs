@@ -74,6 +74,7 @@ public class BeeController : MonoBehaviour
                 b.target = list[index];
                 index = (index + 1) % list.Count;
                 b.state = Bee.BeeState.Harvest;
+                b.hasSearched = false;
             }
         }
         

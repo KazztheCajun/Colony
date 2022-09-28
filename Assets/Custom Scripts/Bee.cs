@@ -11,6 +11,7 @@ public class Bee : MonoBehaviour
     public int capacity;
     public int maxEnergy;
     public float waitRadius;
+    public float searchRadius;
     public Slider energyBar;
     public Slider nectarBar;
     public GameObject infoPanel;
@@ -26,14 +27,21 @@ public class Bee : MonoBehaviour
     public string id;
     [HideInInspector]
     public int energy;
-    [HideInInspector]
+    //[HideInInspector]
     public int nectar;
+    private bool atTarget;
+    [HideInInspector]
+    public bool hasSearched;
+    private List<Transform> targets;
+    [HideInInspector]
+    public Transform home;
     
     // enumerated values
     public enum BeeState
     {
         Wait,
-        Harvest
+        Harvest,
+        Full,
     }
 
     // Start is called before the first frame update
@@ -50,6 +58,8 @@ public class Bee : MonoBehaviour
         target = transform.position;
         infoPanel.SetActive(false);
         rotationAngle = 0;
+        targets = new List<Transform>();
+        hasSearched = true;
     }
 
     // Update is called once per frame
@@ -62,6 +72,11 @@ public class Bee : MonoBehaviour
                 break;
             case BeeState.Harvest:
                 fly();
+                searchArea();
+                break;
+            case BeeState.Full:
+                fly();
+                returnNectar();
                 break;
         }
 
@@ -69,17 +84,25 @@ public class Bee : MonoBehaviour
 
         energyBar.value = energy;
         nectarBar.value = nectar;
+
+        if(nectar >= capacity)
+        {
+            target = home.position;
+            state = BeeState.Full;
+        }
     }
 
     public void fly()
     {
-        if (Vector3.Distance(target, transform.position) > 2f) // if target is farther away than .1 units, move to it
+        if (Vector3.Distance(target, transform.position) > waitRadius) // if target is farther away than .1 units, move to it
         {
             flyToTarget();
+            atTarget = false;
         }
         else
         {
             flyAroundTarget();
+            atTarget = true;
         }
     }
 
@@ -93,6 +116,48 @@ public class Bee : MonoBehaviour
         Vector3 offset = new Vector3(Mathf.Sin(rotationAngle) * waitRadius, Mathf.Cos(rotationAngle) * waitRadius, 0);
         transform.position = Vector3.MoveTowards(transform.position, target + offset, Time.deltaTime * waitSpeed);
         rotationAngle += Time.deltaTime * waitSpeed;
+    }
+
+    public void returnNectar()
+    {
+        if(Vector3.Distance(transform.position, home.position) - waitRadius <= .1f)
+        {
+            home.GetComponent<Hive>().honeyBar.value += nectar;
+            nectar = 0;
+            if(targets.Count >= 1)
+            {
+                target = targets[0].position;
+                state = BeeState.Harvest;
+            }
+            else
+            {
+                state = BeeState.Wait;
+            }
+            
+        }
+    }
+
+    public void searchArea()
+    {
+        if (atTarget && !hasSearched) // if at the target, find
+        {
+            hasSearched = true;
+            Collider2D[] array = Physics2D.OverlapCircleAll(transform.position, searchRadius);
+            targets.Clear();
+            foreach(Collider2D c in array)
+            {
+                GameObject t = c.GetComponent<Transform>().gameObject;
+                if(t.tag == "flower") // if the collider is on a flower game object
+                {
+                    //Debug.Log(c);
+                    if (t != null)
+                    {
+                        targets.Add(t.transform);
+                    }
+                }
+            }
+            Debug.Log($"{id} has found {targets.Count} targets");
+        }
     }
 
     public void selectBee()
