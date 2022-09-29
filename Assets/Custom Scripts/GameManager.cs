@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public List<GameObject> p_flowers;
     public bool play;
     public bool mousePan;
+    public int buffer;
+    public List<Collider2D> spawnAreas;
 
     // In Game references
 
@@ -27,7 +29,7 @@ public class GameManager : MonoBehaviour
             flowers = new List<GameObject>();
             hive = Instantiate(p_hive);
             StartCoroutine(SpawnBees());
-            spawnGrass(new Vector3(20, 20, 1), 5);
+            spawnGrass();
         }
         
     }
@@ -38,16 +40,42 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private void spawnGrass(Vector3 center, int radius)
+    private void spawnGrass()
     {
-        //int num = Random.Range(30, 50);
-        for (int i = 0; i < (radius * 10); i++)
+        int count = 0;
+        foreach(Collider2D c in spawnAreas)
         {
-            GameObject temp = Instantiate(p_grass, center + ((Vector3) Random.insideUnitCircle * radius), Quaternion.identity);
-            if(Random.value >= .8)
+            bool isValid = false;
+            Vector3 point = Vector3.zero;
+            while (!isValid)
             {
-                Instantiate(p_flowers[0], temp.transform.position + ((Vector3) Random.insideUnitCircle * temp.transform.localScale.x), Quaternion.identity);
+                point = new Vector3(Random.Range(c.bounds.min.x + buffer, c.bounds.max.x - buffer), Random.Range(c.bounds.min.y + buffer, c.bounds.max.y - buffer), 1);
+                isValid = c.OverlapPoint(point);
             }
+
+            for (int i = 0; i < (buffer * 10); i++)
+            {
+                isValid = true;
+                Vector3 loc = point + ((Vector3) Random.insideUnitCircle * buffer);
+                Collider2D[] t = Physics2D.OverlapCircleAll(loc, 2f);
+                foreach(Collider2D temp in t)
+                {
+                    if (temp.gameObject.tag == "grass")
+                    {
+                        isValid = false;
+                        //Debug.Log($"{temp} unable to spawn.");
+                    }
+                }
+                if (isValid)
+                {
+                    GameObject temp = Instantiate(p_grass, point + ((Vector3) Random.insideUnitCircle * buffer), Quaternion.identity);
+                    if(Random.value >= .4)
+                    {
+                        Instantiate(p_flowers[count], temp.transform.position + ((Vector3) Random.insideUnitCircle), Quaternion.identity);
+                    }
+                }
+            }
+            count++;
         }
     }
 

@@ -267,8 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dda363aa1bdd49347b6965549d1bbe4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  honeyPool: 0
-  maxHoney: 2000
+  maxHoney: 20000
   honeyBar: {fileID: 6760416679363012844}
 --- !u!1 &4930600548449220330
 GameObject:
