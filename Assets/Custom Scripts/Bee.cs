@@ -8,6 +8,7 @@ public class Bee : MonoBehaviour
     // public variables
     public int flySpeed;
     public int waitSpeed;
+    public int drinkSpeed;
     public int capacity;
     public int maxEnergy;
     public float waitRadius;
@@ -35,6 +36,7 @@ public class Bee : MonoBehaviour
     private List<Transform> targets;
     [HideInInspector]
     public Transform home;
+    private List<Collider2D> array;
     
     // enumerated values
     public enum BeeState
@@ -73,6 +75,7 @@ public class Bee : MonoBehaviour
             case BeeState.Harvest:
                 fly();
                 searchArea();
+                harvestNectar();
                 break;
             case BeeState.Full:
                 fly();
@@ -139,24 +142,54 @@ public class Bee : MonoBehaviour
 
     public void searchArea()
     {
-        if (atTarget && !hasSearched) // if at the target, find
+        if (atTarget && !hasSearched) // if at the target, find nearby flowers
         {
             hasSearched = true;
             Collider2D[] array = Physics2D.OverlapCircleAll(transform.position, searchRadius);
             targets.Clear();
             foreach(Collider2D c in array)
             {
-                GameObject t = c.GetComponent<Transform>().gameObject;
-                if(t.tag == "flower") // if the collider is on a flower game object
+                if(c.gameObject.tag == "flower") // if the collider is on a flower game object
                 {
                     //Debug.Log(c);
-                    if (t != null)
-                    {
-                        targets.Add(t.transform);
-                    }
+                    targets.Add(c.gameObject.transform);
                 }
             }
+            if (targets.Count > 0)
+            {
+                target = targets[0].position;
+            }
             Debug.Log($"{id} has found {targets.Count} targets");
+        }
+    }
+
+    public void harvestNectar()
+    {
+        if(atTarget && Time.frameCount % 120 == 0 && targets.Count > 0)
+        {
+            if(targets[0].gameObject.tag == "flower")
+            {
+                Flower f = targets[0].GetComponent<Flower>(); // get flower comp
+                int draw = Random.Range(drinkSpeed/3, drinkSpeed); // drink a random amount
+                if(f.drinkNectar(draw))
+                {
+                    nectar += draw;
+                }
+                else
+                {
+                    targets.RemoveAt(0);
+                    if(targets.Count > 0)
+                    {
+                        target = targets[0].position;
+                    }
+                    else
+                    {
+                        hasSearched = false;
+                    }
+                    
+                }
+            }
+            
         }
     }
 

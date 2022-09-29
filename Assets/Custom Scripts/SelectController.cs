@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BeeController : MonoBehaviour
+public class SelectController : MonoBehaviour
 {
 
     // Public vaiables
@@ -12,12 +12,14 @@ public class BeeController : MonoBehaviour
     private Camera cam;
     private Vector3 startPosition;
     private List<Bee> selectedBees;
+    private List<Flower> selectedFlowers;
 
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
         selectedBees = new List<Bee>();
+        selectedFlowers = new List<Flower>();
         selectionArea.gameObject.SetActive(false);
     }
 
@@ -49,18 +51,36 @@ public class BeeController : MonoBehaviour
             {
                 b.deselectBee();
             }
+            foreach(Flower f in selectedFlowers)
+            {
+                f.deselectFlower();
+            }
+            selectedFlowers.Clear();
             selectedBees.Clear();
             foreach(Collider2D c in colliderArray)
             {
                 //Debug.Log(c);
-                Bee b = c.GetComponent<Bee>();
-                if (b != null)
+                if(c.gameObject.tag == "bee")
                 {
-                    selectedBees.Add(b);
-                    b.selectBee();
+                    Bee b = c.GetComponent<Bee>();
+                    if (b != null)
+                    {
+                        selectedBees.Add(b);
+                        b.selectBee();
+                    }
                 }
+                else if(c.gameObject.tag == "flower")
+                {
+                    Flower f = c.GetComponent<Flower>();
+                    if (f != null)
+                    {
+                        selectedFlowers.Add(f);
+                        f.selectFlower();
+                    }
+                }
+                
             }
-            Debug.Log(selectedBees.Count);
+            Debug.Log($"Bees: {selectedBees.Count} | Flowers: {selectedFlowers.Count}");
         }
 
         if (Input.GetMouseButtonDown(1)) // Right mouse button pressed
