@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8627880443067980438}
   - component: {fileID: 2528942769677863236}
   - component: {fileID: 1961164353010214300}
+  - component: {fileID: 5628423303426946653}
   m_Layer: 0
   m_Name: Grass
   m_TagString: grass
@@ -75,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.09838911, g: 0.6320754, b: 0.09838911, a: 1}
+  m_Color: {r: 0.22938262, g: 0.3679245, b: 0.1475169, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -101,3 +102,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &5628423303426946653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3007540608556892211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 732ee7fea97798d47a4954523a76919f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  p_grass: {fileID: 3007540608556892211}
+  area: {fileID: 0}
+  canGrow: 1
+  growRate: 7200
+  growRadius: 6
+  lastGrow: 0

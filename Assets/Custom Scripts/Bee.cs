@@ -11,12 +11,18 @@ public class Bee : MonoBehaviour
     public int drinkSpeed;
     public int capacity;
     public int maxEnergy;
+    public int energy;
+    public int nectar;
     public float waitRadius;
     public float searchRadius;
+    public bool hasSearched;
     public Slider energyBar;
     public Slider nectarBar;
     public GameObject infoPanel;
     public BeeState state;
+    public Transform home;
+    public List<Transform> targets;
+    
     
     // private/hidden variables
     private SpriteRenderer render;
@@ -27,15 +33,9 @@ public class Bee : MonoBehaviour
     [HideInInspector]
     public string id;
     [HideInInspector]
-    public int energy;
-    //[HideInInspector]
-    public int nectar;
+    
     private bool atTarget;
-    [HideInInspector]
-    public bool hasSearched;
-    private List<Transform> targets;
-    [HideInInspector]
-    public Transform home;
+    
     private List<Collider2D> array;
     
     // enumerated values
@@ -71,6 +71,7 @@ public class Bee : MonoBehaviour
         {
             case BeeState.Wait:
                 fly();
+                waitOrSearch();
                 break;
             case BeeState.Harvest:
                 fly();
@@ -95,7 +96,7 @@ public class Bee : MonoBehaviour
         }
     }
 
-    public void fly()
+    public void fly() // fly to the target and circle it once there
     {
         if (Vector3.Distance(target, transform.position) > waitRadius) // if target is farther away than .1 units, move to it
         {
@@ -104,7 +105,7 @@ public class Bee : MonoBehaviour
         }
         else
         {
-            flyAroundTarget();
+            flyAroundTarget(); // otherwise fly around it
             atTarget = true;
         }
     }
@@ -121,13 +122,22 @@ public class Bee : MonoBehaviour
         rotationAngle += Time.deltaTime * waitSpeed;
     }
 
-    public void returnNectar()
+    public void waitOrSearch()
+    {
+        if (!hasSearched || Time.frameCount % 120 == 0) // search the area every 120 frames ~= 2 seconds
+        {
+            hasSearched = false;
+            searchArea();
+        }
+    }
+
+    public void returnNectar() // if at the hive, drop off nectar and return to the last known target location
     {
         if(Vector3.Distance(transform.position, home.position) - waitRadius <= .1f)
         {
             home.GetComponent<Hive>().honeyBar.value += nectar;
             nectar = 0;
-            if(targets.Count >= 1)
+            if(targets.Count > 0)
             {
                 target = targets[0].position;
                 state = BeeState.Harvest;
@@ -142,6 +152,7 @@ public class Bee : MonoBehaviour
 
     public void searchArea()
     {
+
         if (atTarget && !hasSearched) // if at the target, find nearby flowers
         {
             hasSearched = true;
@@ -158,6 +169,7 @@ public class Bee : MonoBehaviour
             if (targets.Count > 0)
             {
                 target = targets[0].position;
+                state = BeeState.Harvest;
             }
             Debug.Log($"{id} has found {targets.Count} targets");
         }
@@ -165,31 +177,40 @@ public class Bee : MonoBehaviour
 
     public void harvestNectar()
     {
-        if(atTarget && Time.frameCount % 120 == 0 && targets.Count > 0)
+        if(atTarget && Time.frameCount % 120 == 0)
         {
-            if(targets[0].gameObject.tag == "flower")
+            if(targets.Count > 0 && targets[0].gameObject.activeSelf) // if the current target is still active in game
             {
                 Flower f = targets[0].GetComponent<Flower>(); // get flower comp
                 int draw = Random.Range(drinkSpeed/3, drinkSpeed); // drink a random amount
-                if(f.drinkNectar(draw))
+                if(f.drinkNectar(draw)) // if able to drink nectar
                 {
-                    nectar += draw;
+                    nectar += draw; // add that amount
                 }
                 else
                 {
-                    targets.RemoveAt(0);
-                    if(targets.Count > 0)
-                    {
-                        target = targets[0].position;
-                    }
-                    else
-                    {
-                        hasSearched = false;
-                    }
-                    
+                    nextTarget(); // otherwise select next target
                 }
             }
-            
+            else
+            {
+                nextTarget(); // otherwise select next target
+            }
+        }
+        
+    }
+
+    private void nextTarget()
+    {
+        targets.RemoveAt(0); // otherwise, remove the target from the list
+        if(targets.Count > 0) // if there are still targets left
+        {
+            target = targets[0].position; // move selecte the next one
+        }
+        else
+        { 
+            hasSearched = false; // otherwise shift into waiting state and immediatly search for new targets
+            state = BeeState.Wait;
         }
     }
 

@@ -311,7 +311,8 @@ MonoBehaviour:
   capacity: 100
   maxEnergy: 100
   waitRadius: 2
-  searchRadius: 2
+  searchRadius: 5
+  hasSearched: 0
   energyBar: {fileID: 5439700815311471906}
   nectarBar: {fileID: 5439700814853244481}
   infoPanel: {fileID: 5439700815613283487}
@@ -320,7 +321,7 @@ MonoBehaviour:
   id: 
   energy: 0
   nectar: 0
-  hasSearched: 0
+  targets: []
   home: {fileID: 0}
 --- !u!58 &5439700815181571192
 CircleCollider2D:

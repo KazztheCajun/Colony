@@ -7,12 +7,15 @@ public class Flower : MonoBehaviour
 {
     public double nectar;
     public double maxNectar;
-    public Transform seed;
+    public int lifeTime;
+    public GameObject seed;
     public Color norm;
     public Color selected;
     public GameObject infoPanel;
     public Slider nectarBar;
     private SpriteRenderer render;
+    private bool pollinated;
+    private int spawnTime;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +25,8 @@ public class Flower : MonoBehaviour
         nectarBar.maxValue = (float) maxNectar;
         nectarBar.value = (float) maxNectar;
         infoPanel.SetActive(false);
+        spawnTime = Time.frameCount;
+        lifeTime = Random.Range(7200, 14400);
     }
 
     // Update is called once per frame
@@ -31,9 +36,58 @@ public class Flower : MonoBehaviour
         {
             double t = nectar;
             nectar += maxNectar * .001;
-            Debug.Log($"{this} regains {nectar - t} nectar.");
+            //Debug.Log($"{this} regains {nectar - t} nectar.");
         }
         nectarBar.value = (float) nectar;
+        if(Time.frameCount - spawnTime >= lifeTime)
+        {
+            this.gameObject.SetActive(false);
+
+            if(pollinated)
+            {
+                int num = Random.Range(2, 4);
+                for(int i = 0; i < num; i++)
+                {
+                    spawnSeed();
+                }
+            }
+            else
+            {
+                spawnSeed();
+            }
+            
+        }
+    }
+
+    private void spawnSeed()
+    {
+        bool isValid = false;
+        int count = 0;
+        int loop = 0;
+        Vector3 point = Vector3.zero;
+        while (!isValid && loop < 20)
+        {
+            loop++;
+            point = this.transform.position + ((Vector3) Random.insideUnitCircle * 2f);
+            Collider2D[] t = Physics2D.OverlapCircleAll(point, 1f);
+            count = 0;
+            foreach(Collider2D c in t)
+            {
+                if(c.gameObject.tag == "seed" || c.gameObject.tag == "flower")
+                {
+                    count++;
+                }
+            }
+            if(count == 0)
+            {
+                isValid = true;
+            }
+        }
+        if (isValid)
+        {
+            GameObject t = Instantiate(seed, point, Quaternion.identity);
+            t.transform.Rotate(0,0,Random.Range(0, 360));
+        }
     }
 
     public bool drinkNectar(int amount)
@@ -45,6 +99,7 @@ public class Flower : MonoBehaviour
         }
         else
         {
+            pollinated = true;
             return false;
         }
     }
