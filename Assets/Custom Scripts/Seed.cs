@@ -11,7 +11,7 @@ public class Seed : MonoBehaviour
     void Start()
     {
         spawnTime = Time.frameCount;
-        germinationTime = Random.Range(3600, 14400);
+        germinationTime = Random.Range(1000, 2200);
     }
 
     // Update is called once per frame

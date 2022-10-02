@@ -26,13 +26,13 @@ public class Flower : MonoBehaviour
         nectarBar.value = (float) maxNectar;
         infoPanel.SetActive(false);
         spawnTime = Time.frameCount;
-        lifeTime = Random.Range(7200, 14400);
+        lifeTime = Random.Range(1800, 2600);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ((Time.frameCount % 180 == 0) && (nectar < maxNectar))
+        if ((Time.frameCount % 60 == 0) && (nectar < maxNectar))
         {
             double t = nectar;
             nectar += maxNectar * .001;
@@ -92,7 +92,7 @@ public class Flower : MonoBehaviour
 
     public bool drinkNectar(int amount)
     {
-        if (nectar - amount > 10f)
+        if (nectar - amount > 20f)
         {
             nectar -= amount;
             return true;

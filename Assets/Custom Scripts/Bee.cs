@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -166,6 +166,7 @@ public class Bee : MonoBehaviour
                     targets.Add(c.gameObject.transform);
                 }
             }
+            shuffle(targets);
             if (targets.Count > 0)
             {
                 target = targets[0].position;
@@ -177,12 +178,12 @@ public class Bee : MonoBehaviour
 
     public void harvestNectar()
     {
-        if(atTarget && Time.frameCount % 120 == 0)
+        if(atTarget && Time.frameCount % 60 == 0)
         {
             if(targets.Count > 0 && targets[0].gameObject.activeSelf) // if the current target is still active in game
             {
                 Flower f = targets[0].GetComponent<Flower>(); // get flower comp
-                int draw = Random.Range(drinkSpeed/3, drinkSpeed); // drink a random amount
+                int draw = UnityEngine.Random.Range(drinkSpeed/3, drinkSpeed); // drink a random amount
                 if(f.drinkNectar(draw)) // if able to drink nectar
                 {
                     nectar += draw; // add that amount
@@ -226,5 +227,18 @@ public class Bee : MonoBehaviour
         //Debug.Log($"{id} has been deselected.");
         infoPanel.SetActive(false);
         render.color = Color.black;
+    }
+
+    // Adpated from https://stackoverflow.com/questions/273313/randomize-a-listt
+    private static void shuffle(List<Transform> list)  
+    {  
+        int n = list.Count;  
+        while (n > 1) {  
+            n--;  
+            int k = (int) Math.Floor((double) UnityEngine.Random.Range(0, n + 1));  
+            Transform value = list[k];  
+            list[k] = list[n];  
+            list[n] = value;  
+        }  
     }
 }
