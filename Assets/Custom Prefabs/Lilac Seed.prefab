@@ -59,5 +59,9 @@ PrefabInstance:
       propertyPath: parentPlant
       value: 
       objectReference: {fileID: 6651470665272790641, guid: de37cf8b935be1046904e2947b2d6ca7, type: 3}
+    - target: {fileID: 6545368681722963987, guid: 82b1ffc07f2775646b0ea9bc03d0c9f7, type: 3}
+      propertyPath: germinationTime
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82b1ffc07f2775646b0ea9bc03d0c9f7, type: 3}

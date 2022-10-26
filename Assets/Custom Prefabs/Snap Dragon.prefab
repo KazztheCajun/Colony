@@ -237,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nectar: 0
   maxNectar: 1000
-  lifeTime: 14400
+  lifeTime: 240
   seed: {fileID: 2651126147678731401, guid: fcbdc46ebee055545831c094b7d088ea, type: 3}
   norm: {r: 0.2784314, g: 0.2392157, b: 1, a: 0}
   selected: {r: 0.49019608, g: 0.23921569, b: 1, a: 0}

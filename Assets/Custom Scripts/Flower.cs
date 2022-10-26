@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class Flower : MonoBehaviour
 {
-    public double nectar;
-    public double maxNectar;
-    public int lifeTime;
+    [Range(0, 5000f)]
+    public float maxNectar;
+    [Range(0, 500f)]
+    public float lifeTime;
     public GameObject seed;
     public Color norm;
     public Color selected;
@@ -15,31 +16,24 @@ public class Flower : MonoBehaviour
     public Slider nectarBar;
     private SpriteRenderer render;
     private bool pollinated;
-    private int spawnTime;
+    private float spawnTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        nectar = maxNectar;
         render = GetComponent<SpriteRenderer>();
         nectarBar.maxValue = (float) maxNectar;
         nectarBar.value = (float) maxNectar;
         infoPanel.SetActive(false);
-        spawnTime = Time.frameCount;
-        lifeTime = Random.Range(1800, 2600);
+        spawnTime = 0;
+        lifeTime = Random.Range(30, 40);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if ((Time.frameCount % 60 == 0) && (nectar < maxNectar))
-        {
-            double t = nectar;
-            nectar += maxNectar * .001;
-            //Debug.Log($"{this} regains {nectar - t} nectar.");
-        }
-        nectarBar.value = (float) nectar;
-        if(Time.frameCount - spawnTime >= lifeTime)
+        spawnTime += Time.deltaTime;
+        if(spawnTime >= lifeTime)
         {
             this.gameObject.SetActive(false);
 
@@ -55,7 +49,12 @@ public class Flower : MonoBehaviour
             {
                 spawnSeed();
             }
-            
+            decompose();
+        }
+
+        if(nectarBar.value < 50f && !pollinated)
+        {
+            pollinated = true;
         }
     }
 
@@ -90,16 +89,15 @@ public class Flower : MonoBehaviour
         }
     }
 
-    public bool drinkNectar(int amount)
+    public bool drinkNectar(float amount)
     {
-        if (nectar - amount > 20f)
+        if (nectarBar.value - amount >= 0)
         {
-            nectar -= amount;
+            nectarBar.value -= amount;
             return true;
         }
         else
         {
-            pollinated = true;
             return false;
         }
     }
@@ -116,5 +114,11 @@ public class Flower : MonoBehaviour
         //Debug.Log($"{id} has been deselected.");
         infoPanel.SetActive(false);
         //render.color = norm;
+    }
+
+    public IEnumerator decompose()
+    {
+        yield return new WaitForSeconds(5f);
+        Destroy(this.gameObject);
     }
 }

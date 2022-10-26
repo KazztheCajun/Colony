@@ -819,7 +819,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8328513167659115641, guid: 3a168a51302b3fc409b0ab2793507e58, type: 3}
       propertyPath: m_Value
-      value: 1505
+      value: 597
       objectReference: {fileID: 0}
     - target: {fileID: 8328513167659115641, guid: 3a168a51302b3fc409b0ab2793507e58, type: 3}
       propertyPath: m_MaxValue
@@ -827,6 +827,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8328513167659115641, guid: 3a168a51302b3fc409b0ab2793507e58, type: 3}
       propertyPath: m_Direction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8328513167659115641, guid: 3a168a51302b3fc409b0ab2793507e58, type: 3}
+      propertyPath: m_WholeNumbers
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8328513167659115642, guid: 3a168a51302b3fc409b0ab2793507e58, type: 3}

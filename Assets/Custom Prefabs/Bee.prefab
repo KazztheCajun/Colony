@@ -307,22 +307,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flySpeed: 25
   waitSpeed: 5
+  waitTime: 0
   drinkSpeed: 50
   capacity: 100
   maxEnergy: 100
+  energyRegen: 4
+  energy: 100
+  nectar: 0
   waitRadius: 2
   searchRadius: 5
+  drainRate: 2.5
   hasSearched: 0
+  atTarget: 0
   energyBar: {fileID: 5439700815311471906}
   nectarBar: {fileID: 5439700814853244481}
   infoPanel: {fileID: 5439700815613283487}
   state: 0
+  home: {fileID: 0}
+  targets: []
   target: {x: 0, y: 0, z: 0}
   id: 
-  energy: 0
-  nectar: 0
-  targets: []
-  home: {fileID: 0}
 --- !u!58 &5439700815181571192
 CircleCollider2D:
   m_ObjectHideFlags: 0

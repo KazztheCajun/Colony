@@ -116,7 +116,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   p_grass: {fileID: 3007540608556892211}
   area: {fileID: 0}
+  playArea: {fileID: 0}
   canGrow: 1
-  growRate: 7200
+  growRate: 4.8
   growRadius: 6
   lastGrow: 0

@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class Hive : MonoBehaviour
 {
-    public int maxHoney;
+    [Range(0,5000f)]
+    public float maxHoney;
     public Slider honeyBar;
     public Button spawnButton;
     public GameObject p_bee;
@@ -29,6 +30,21 @@ public class Hive : MonoBehaviour
         {
             spawnButton.gameObject.SetActive(false);
         }
+    }
+
+    public bool addHoney(float amount)
+    {
+        if(honeyBar.value + amount <= honeyBar.maxValue)
+        {
+            honeyBar.value += amount;
+            return true;
+        }
+        else
+        {
+            honeyBar.value = honeyBar.maxValue;
+            return false;
+        }
+            
     }
 
     public void SpawnButton()
