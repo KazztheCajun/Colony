@@ -22,7 +22,7 @@ public class Seed : MonoBehaviour
         if(spawnTime >= germinationTime)
         {
             GameObject t = Instantiate(parentPlant, this.transform.position, Quaternion.identity);
-            t.transform.Rotate(0, 0, Random.Range(0, 360));
+            t.transform.GetChild(0).transform.Rotate(0, 0, Random.Range(0, 360));
             Destroy(this.transform.gameObject);
         }
     }

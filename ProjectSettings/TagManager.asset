@@ -52,9 +52,12 @@ TagManager:
   - name: Plants
     uniqueID: 3663242321
     locked: 0
+  - name: GameUI
+    uniqueID: 2434639423
+    locked: 0
   - name: Bees
     uniqueID: 3877249065
     locked: 0
-  - name: UI
-    uniqueID: 2434639423
+  - name: PlayerUI
+    uniqueID: 489346839
     locked: 0

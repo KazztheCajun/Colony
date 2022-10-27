@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -33,7 +32,7 @@ public class GameManager : MonoBehaviour
             bees = new List<GameObject>();
             flowers = new List<GameObject>();
             spawnHive();
-            StartCoroutine(hive.GetComponent<Hive>().SpawnBees());
+            //StartCoroutine(hive.GetComponent<Hive>().SpawnBees());
             spawnGrass();
         }
         
@@ -87,7 +86,7 @@ public class GameManager : MonoBehaviour
                     if(Random.value >= .4) // and 60% of the time spawn a flower
                     {
                         GameObject g = Instantiate(p_flowers[count], temp.transform.position + ((Vector3) Random.insideUnitCircle), Quaternion.identity);
-                        g.transform.Rotate(0,0,Random.Range(0, 360));
+                        g.transform.GetChild(0).transform.Rotate(0,0,Random.Range(0, 360));
                     }
                 }
             }

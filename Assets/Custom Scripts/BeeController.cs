@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SelectController : MonoBehaviour
+public class BeeController : MonoBehaviour
 {
 
     // Public vaiables
@@ -12,14 +12,12 @@ public class SelectController : MonoBehaviour
     private Camera cam;
     private Vector3 startPosition;
     private List<Bee> selectedBees;
-    private List<Flower> selectedFlowers;
 
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
         selectedBees = new List<Bee>();
-        selectedFlowers = new List<Flower>();
         selectionArea.gameObject.SetActive(false);
     }
 
@@ -45,65 +43,45 @@ public class SelectController : MonoBehaviour
 
         if(Input.GetMouseButtonUp(0)) // Left mouse button released
         {
-            selectionArea.gameObject.SetActive(false);  //  hide selection area
+            selectionArea.gameObject.SetActive(false); //  hide selection area
             //Debug.Log($"Pressed: {startPosition} | Released: {cam.ScreenToWorldPoint(Input.mousePosition)}")
-            Collider2D[] colliderArray = Physics2D.OverlapAreaAll(startPosition, cam.ScreenToWorldPoint(Input.mousePosition), 1);  // find all the colliders inside the selection area
+            Collider2D[] colliderArray = Physics2D.OverlapAreaAll(startPosition, cam.ScreenToWorldPoint(Input.mousePosition), 1); // find all the colliders inside the selection area
             //Debug.Log("#######");
-            foreach(Bee b in selectedBees)  // deselect any bees
+            foreach(Bee b in selectedBees) // deselect any bees
             {
                 b.deselectBee();
             }
-            foreach(Flower f in selectedFlowers) // deselect any flowers
-            {
-                f.deselectFlower();
-            }
-            // clear the flower and bee arrays
-            selectedFlowers.Clear(); 
             selectedBees.Clear();
-            foreach(Collider2D c in colliderArray) // find all colliders in the selection area
+            foreach(Collider2D c in colliderArray)
             {
                 //Debug.Log(c);
-                if(c.gameObject.tag == "bee") // add any bees to the selected array
+                Bee b = c.GetComponent<Bee>();
+                if (b != null)
                 {
-                    Bee b = c.GetComponent<Bee>();
-                    if (b != null)
-                    {
-                        selectedBees.Add(b);
-                        b.selectBee();
-                    }
+                    selectedBees.Add(b);
+                    b.selectBee();
                 }
-                else if(c.gameObject.tag == "flower")
-                {
-                    Flower f = c.GetComponent<Flower>();
-                    if (f != null)
-                    {
-                        selectedFlowers.Add(f);
-                        f.selectFlower();
-                    }
-                }
-                
             }
-            //Debug.Log($"Bees: {selectedBees.Count} | Flowers: {selectedFlowers.Count}");
+            //Debug.Log(selectedBees.Count);
         }
 
         if (Input.GetMouseButtonDown(1)) // Right mouse button pressed
         {
-            Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition); // store current mouse pos
-            List<Vector3> list = GetPositionsAround(new Vector3(pos.x, pos.y, 1), new float[] {1f, 2f, 3f}, new int[] {5, 10, 20}); // calculate new targets in a circular area
+            Vector3 pos = cam.ScreenToWorldPoint(Input.mousePosition);
+            List<Vector3> list = GetPositionsAround(new Vector3(pos.x, pos.y, 1), new float[] {1f, 2f, 3f}, new int[] {5, 10, 20});
             int index = 0;
             shuffle(selectedBees);
-            foreach(Bee b in selectedBees) // apply those targets to each bee
+            foreach(Bee b in selectedBees)
             {
                 b.target = list[index];
                 index = (index + 1) % list.Count;
                 b.state = Bee.BeeState.Harvest;
-                b.hasSearched = false;
             }
         }
         
     }
 
-    public List<Vector3> GetPositionsAround(Vector3 start, float[] ringDistArray, int[] numArray)
+    private List<Vector3> GetPositionsAround(Vector3 start, float[] ringDistArray, int[] numArray)
     {
         List<Vector3> l = new List<Vector3>();
         l.Add(start);

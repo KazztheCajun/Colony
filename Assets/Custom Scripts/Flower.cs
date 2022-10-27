@@ -4,7 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Flower : MonoBehaviour
-{
+{    
+
+    // Enumerated Values
+    public enum Species {MORNING, LILAC, SNAP, MARIGOLD, PEA, TULIP}
+
+    // public variables
+    public Species species;
     [Range(0, 5000f)]
     public float maxNectar;
     [Range(0, 500f)]
@@ -14,6 +20,8 @@ public class Flower : MonoBehaviour
     public Color selected;
     public GameObject infoPanel;
     public Slider nectarBar;
+
+    // private variables
     private SpriteRenderer render;
     private bool pollinated;
     private float spawnTime;

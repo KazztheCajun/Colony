@@ -280,7 +280,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -417718231
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
@@ -305,18 +305,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28a7d8d81c014b44d8fc8b1ac535cfa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flySpeed: 25
+  flySpeed: 15
   waitSpeed: 5
   waitTime: 0
   drinkSpeed: 50
   capacity: 100
   maxEnergy: 100
   energyRegen: 4
+  drainRate: 2.5
   energy: 100
   nectar: 0
   waitRadius: 2
   searchRadius: 5
-  drainRate: 2.5
   hasSearched: 0
   atTarget: 0
   energyBar: {fileID: 5439700815311471906}

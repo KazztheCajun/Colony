@@ -8,9 +8,11 @@ public class Bee : MonoBehaviour
     // public variables
     [Range(0, 500)]
     public int flySpeed;
+    [Range(0, 500)]
     public int waitSpeed;
     [Range(0, 10f)]
     public float waitTime;
+    [Range(0, 200)]
     public int drinkSpeed;
     [Range(0, 500f)]
     public float capacity;
@@ -41,13 +43,13 @@ public class Bee : MonoBehaviour
     private SpriteRenderer render;
     
     private float rotationAngle;
-    [HideInInspector]
+    //[HideInInspector]
     public Vector3 target;
     [HideInInspector]
     public string id;
     private List<Collider2D> array;
-
     private float waitCount;
+    private List<Flower.Species> harvestedFrom;
     
     // enumerated values
     public enum BeeState
@@ -68,12 +70,12 @@ public class Bee : MonoBehaviour
         energyBar.value = maxEnergy;
         nectarBar.maxValue = capacity;
         nectarBar.value = nectar;
-        target = transform.position;
         infoPanel.SetActive(false);
         rotationAngle = 0;
         targets = new List<Transform>();
         hasSearched = true;
         waitCount = 0;
+        harvestedFrom = new List<Flower.Species>();
     }
 
     // Update is called once per frame
@@ -96,12 +98,14 @@ public class Bee : MonoBehaviour
                 break;
         }
 
+        energyBar.maxValue = maxEnergy;
         energyBar.value = energy;
+        nectarBar.maxValue = capacity;
         nectarBar.value = nectar;
 
         if(nectar >= capacity)
         {
-            target = home.position;
+            target = home.GetComponent<Hive>().dropoff.position;
             state = BeeState.Full;
         }
     }
@@ -188,7 +192,7 @@ public class Bee : MonoBehaviour
                 energy += energyRegen * Time.deltaTime;
             }
             float a = drinkSpeed * Time.deltaTime;
-            bool canDrop = home.GetComponent<Hive>().addHoney(a);
+            bool canDrop = home.GetComponent<Hive>().addHoney(a, harvestedFrom);
             if (canDrop)
             {
                 nectar -= a;
@@ -224,10 +228,21 @@ public class Bee : MonoBehaviour
                     //Debug.Log(c);
                     targets.Add(c.gameObject.transform);
                 }
+                if(c.gameObject.tag == "hive") // if a hive is found, clear the list and only add the hive as a target
+                {
+                    targets.Clear();
+                    targets.Add(c.gameObject.transform);
+                    break;
+                }
             }
-            shuffle(targets);
-            if (targets.Count > 0)
+            if(targets.Count == 1 && targets[0].gameObject.tag == "hive")
             {
+                state = BeeState.Wait;
+                target = targets[0].GetComponent<Hive>().wait.transform.position;
+            }
+            else if (targets.Count > 0)
+            {
+                shuffle(targets);
                 target = targets[0].position;
                 state = BeeState.Harvest;
             }
@@ -249,6 +264,10 @@ public class Bee : MonoBehaviour
                     if (energy < maxEnergy)
                     {
                         energy += energyRegen * Time.deltaTime;
+                    }
+                    if(!harvestedFrom.Contains(f.species))
+                    {
+                        harvestedFrom.Add(f.species);
                     }
                 }
                 else
