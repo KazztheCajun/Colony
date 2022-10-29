@@ -11,6 +11,22 @@ public class Hive : MonoBehaviour
     public float maxWater;
     [Range(0,10f)]
     public float expScale;
+    [Range(0,200f)]
+    public float expStart;
+    [Range(0,25)]
+    public int flySpeedPerLevel;
+    [Range(0,25)]
+    public int waitSpeedPerLevel;
+    [Range(0,50f)]
+    public float capacityPerLevel;
+    [Range(0,50f)]
+    public float energyPerLevel;
+    [Range(0,50f)]
+    public int drinkPerLevel;
+    [Range(0,5f)]
+    public float regenPerLevel;
+    [Range(0,5f)]
+    public float drainPerLevel;
     public Slider honeyBar;
     public Slider waterBar;
     public Slider speedExp;
@@ -50,17 +66,17 @@ public class Hive : MonoBehaviour
         regenExpButton.gameObject.SetActive(false);
         drainExpButton.gameObject.SetActive(false);
         spawnedBees = new List<Bee>();
-        speedExp.maxValue = 100;
+        speedExp.maxValue = expStart;
         speedExp.value = 0;
-        capacityExp.maxValue = 100;
+        capacityExp.maxValue = expStart;
         capacityExp.value = 0;
-        energyExp.maxValue = 100;
+        energyExp.maxValue = expStart;
         energyExp.value = 0;
-        drinkExp.maxValue = 100;
+        drinkExp.maxValue = expStart;
         drinkExp.value = 0;
-        regenExp.maxValue = 100;
+        regenExp.maxValue = expStart;
         regenExp.value = 0;
-        drainExp.maxValue = 100;
+        drainExp.maxValue = expStart;
         drainExp.value = 0;
         StartCoroutine(SpawnBees(spawnedBees));
     }
@@ -133,11 +149,11 @@ public class Hive : MonoBehaviour
         {
             speedExp.value += Time.deltaTime * expScale;
         }
-        if(f.Contains(Flower.Species.TULIP))
+        if(f.Contains(Flower.Species.LILAC))
         {
             capacityExp.value += Time.deltaTime * expScale;
         }
-        if(f.Contains(Flower.Species.LILAC))
+        if(f.Contains(Flower.Species.TULIP))
         {
             energyExp.value += Time.deltaTime * expScale;
         }
@@ -181,33 +197,33 @@ public class Hive : MonoBehaviour
             switch (attribute)
             {
                 case "speed":
-                    b.flySpeed += 5;
-                    b.waitSpeed += 5;
+                    b.flySpeed += flySpeedPerLevel;
+                    b.waitSpeed += waitSpeedPerLevel;
                     speedExp.value = speedExp.value - speedExp.maxValue;
                     speedExp.maxValue += 50;
                     break;
                 case "capacity":
-                    b.capacity += 25;
+                    b.nectarBar.maxValue += capacityPerLevel;
                     capacityExp.value = capacityExp.value - capacityExp.maxValue;
                     capacityExp.maxValue += 50;
                     break;
                 case "energy":
-                    b.maxEnergy += 25;
+                    b.energyBar.maxValue += energyPerLevel;
                     energyExp.value = energyExp.value - energyExp.maxValue;
                     energyExp.maxValue += 50;
                     break;
                 case "drink":
-                    b.drinkSpeed += 10;
+                    b.drinkSpeed += drinkPerLevel;
                     drinkExp.value = drinkExp.value - drinkExp.maxValue;
                     drinkExp.maxValue += 50;
                     break;
                 case "regen":
-                    b.energyRegen += 0.2f;
+                    b.energyRegen += regenPerLevel;
                     regenExp.value = regenExp.value - regenExp.maxValue;
                     regenExp.maxValue += 50;
                     break;
                 case "drain":
-                    b.drainRate -= 0.02f;
+                    b.drainRate -= drainPerLevel;
                     drainExp.value = drainExp.value - drainExp.maxValue;
                     drainExp.maxValue += 50;
                     break;

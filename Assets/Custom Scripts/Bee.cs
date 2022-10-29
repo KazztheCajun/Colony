@@ -48,7 +48,7 @@ public class Bee : MonoBehaviour
     [HideInInspector]
     public string id;
     private List<Collider2D> array;
-    private float waitCount;
+    public float waitCount;
     private List<Flower.Species> harvestedFrom;
     
     // enumerated values
@@ -187,9 +187,9 @@ public class Bee : MonoBehaviour
     {
         if(atTarget)
         {
-            if (energy < maxEnergy)
+            if (energy < energyBar.maxValue)
             {
-                energy += energyRegen * Time.deltaTime;
+                energy += energyRegen * 2 * Time.deltaTime;
             }
             float a = drinkSpeed * Time.deltaTime;
             bool canDrop = home.GetComponent<Hive>().addHoney(a, harvestedFrom);
@@ -201,11 +201,13 @@ public class Bee : MonoBehaviour
                     nectar = 0;
                     if(targets.Count > 0 && targets[0].gameObject.activeSelf)
                     {
+                        harvestedFrom.Clear();
                         target = targets[0].position;
                         state = BeeState.Harvest;
                     }
                     else
                     {
+                        harvestedFrom.Clear();
                         nextTarget();
                     }
                 }
@@ -261,7 +263,7 @@ public class Bee : MonoBehaviour
                 if(f.drinkNectar(draw)) // if able to drink nectar
                 {
                     nectar += draw; // add that amount
-                    if (energy < maxEnergy)
+                    if (energy < energyBar.maxValue)
                     {
                         energy += energyRegen * Time.deltaTime;
                     }

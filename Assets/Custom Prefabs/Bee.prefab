@@ -307,12 +307,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   flySpeed: 15
   waitSpeed: 5
-  waitTime: 0
+  waitTime: 1.25
   drinkSpeed: 50
   capacity: 100
   maxEnergy: 100
-  energyRegen: 4
-  drainRate: 2.5
+  energyRegen: 3
+  drainRate: 2.56
   energy: 100
   nectar: 0
   waitRadius: 2
